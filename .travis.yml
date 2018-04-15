@@ -2,3 +2,11 @@ language: node_js
 
 install:
   - npm install
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export DOCKER_REPO=vplagov/travis-demo
+  - export TAG=latest
+  - docker build -t vplagov/travis-demo .
+  - docker tag $TAG
+  - docker push $DOCKER_REPO
